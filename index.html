@@ -52,6 +52,8 @@ header h1 span { color: var(--muted); font-weight: 450; }
   padding: 6px 10px; font-size: 14px; line-height: 1.1;
 }
 .hbtn.warn { border-color: var(--tw); color: #ffb2a8; }
+.hbtn.accent { background: var(--accent); border-color: var(--accent); color: #1c0e00; font-weight: 650; }
+#gear { font-size: 17px; padding: 4px 10px; }
 
 /* Board */
 #boardWrap { container-type: inline-size; width: 100%; flex: none; }
@@ -77,6 +79,8 @@ header h1 span { color: var(--muted); font-weight: 450; }
 .cell.tile .L, .cell.prev .L { font-size: 4.3cqw; font-weight: 650; text-transform: uppercase; }
 .cell .v { position: absolute; right: 1.5px; bottom: 1px; font-size: 1.75cqw; font-weight: 600; }
 .cell.joker .L { color: #8a5a12; font-style: italic; }
+.cell.unsure { outline: 2px dashed #ff6b5b; outline-offset: -2px; }
+.rt.on.unsure { outline: 2px dashed #ff6b5b; outline-offset: -2px; }
 .cell.sel { outline: 2px solid #fff; outline-offset: -2px; z-index: 1; }
 .cell.sel::before {
   position: absolute; left: 1.5px; top: 1px; font-size: 2.2cqw; font-weight: 800; color: #fff;
@@ -176,8 +180,10 @@ header h1 span { color: var(--muted); font-weight: 450; }
 <div id="app">
   <header>
     <h1>Эрудит <span>подсказчик</span></h1>
+    <button class="hbtn accent" id="shotBtn" type="button">Скриншот</button>
     <button class="hbtn" id="clear" type="button">Новая игра</button>
-    <button class="hbtn" id="gear" type="button">Настройки</button>
+    <button class="hbtn" id="gear" type="button" aria-label="Настройки">⚙&#xFE0E;</button>
+    <input type="file" id="shotInput" accept="image/*" hidden>
   </header>
   <div id="boardWrap"><div id="board" role="grid" aria-label="Игровое поле"></div></div>
   <div id="rackRow">
@@ -211,9 +217,12 @@ header h1 span { color: var(--muted); font-weight: 450; }
     </section>
     <section>
       <h3>Как пользоваться</h3>
-      <p>Нажмите клетку поля и печатайте: курсор идёт вправо или вниз, повторное нажатие на ту же клетку меняет направление. Нажмите подставку, чтобы вводить свои фишки. ★ — звёздочка: на подставке добавляет джокер, на поле отмечает поставленную букву как звёздочку (0 очков). 3С и 2С — слово ×3 и ×2, 3Б и 2Б — буква ×3 и ×2. Всё работает без интернета; поле и настройки сохраняются в этом браузере.</p>
+      <p>Скриншот: сделайте снимок экрана в игре и нажмите «Скриншот» — поле и ваши фишки прочитаются сами, а ходы посчитаются сразу. Фишки, выставленные на поле, но ещё не сыгранные, попадут в руку. Буквы, в которых подсказчик не уверен, обведены красной рамкой: нажмите такую клетку и введите правильную букву. Исправления запоминаются, и с каждым скриншотом чтение точнее.</p>
+      <p>Вручную: нажмите клетку поля и печатайте: курсор идёт вправо или вниз, повторное нажатие на ту же клетку меняет направление. Нажмите подставку, чтобы вводить свои фишки. ★ — звёздочка: на подставке добавляет джокер, на поле отмечает поставленную букву как звёздочку (0 очков). 3С и 2С — слово ×3 и ×2, 3Б и 2Б — буква ×3 и ×2. Всё работает без интернета; поле и настройки сохраняются в этом браузере.</p>
       <p>Чтобы подсказчик работал без интернета, откройте эту страницу в Chrome или Safari, нажмите «Поделиться» и выберите «На экран «Домой»». После этого он открывается с иконки и без сети.</p>
       <p id="dictInfo"></p>
+      <p id="learnInfo"></p>
+      <div><button class="hbtn" id="forget" type="button">Забыть выученные буквы</button></div>
     </section>
   </div>
 </div>
@@ -49621,6 +49630,7 @@ header h1 span { color: var(--muted); font-weight: 450; }
 ящичник
 ящур
 ящурка</script>
+<script type="application/json" id="seeds">{"letters":{"г":[{"q":"lszzzzzzzzzzzzwtmszxtqoooooooomjmszuldaaaaaaaa98mszsf40000000000mszsf40000000000mszsf40000000000mszsf40000000000ouzsf40000000000twzsf40000000000wxzsf40000000000txzsf40000000000svzsf40000000000rvzsf40000000000puzsf40000000000ntzsf40000000000lszsf30000000000","a":0.605}],"м":[{"q":"zzyoa100001aoyzzzzyqd300003dqyzzzyyuj710007juyyzzwusoc2002botuvzzunoqi6104gqpntzzsiipob229lpijszzsgdnsh54fqmdgszzsf9irnbalri9fszzsf6borkjqob6fszzsf37jsttsj73fszzsf33dqxxqe33fszzsf317juvl913fszzsf303ajlc403fszzsf3014785203fszzsf3000000003fszzsf3000000003fsz","a":0.868}],"к":[{"q":"srj8100017hsxre4wtk810015dotska3zwl80003bnvsj941zvk70028kuuk8200zvk7027isun93000zwnc7aiqtnb30000zxsnknssmb400000zyvsquwtja300000zxskhlrtqj920000zwmb59gqvtk82000zvk7025eqvsi6100zvk70015grvqe510zvk700027itvoc42zvk7000029mvuogcwsi6000004bnsurqsqg60000016eqwxw","a":0.725}],"х":[{"q":"jqxoa100004esul8blusf500029msqc64aotpb3027ksrf5104erul825grsj710016issjbfqtm92000028lssoqupc40000003bpvxxsh5000000007jvzypb2000000018lvyxqc300000004esutuul82000003bptogltsj7200029murd69musg50027jssh604cpuqd408grsj72015equoa4jrum9200016hsulcuvug5000002bowrk","a":0.842}],"о":[{"q":"027hrwyyyyxsi82037fosrpnnoqrog737fqtphbaabfnsqf7eovqe510004dpunemsti61000017jusmtupc20000003dqvtxvl9100000019mvxzvk7000000007kvzzvk7000000007kvzxvl9100000019lvytupc20000002cpvumsti61000016itsnenuqe620015equne7epsoidbbchptqe726dlpqppooqrof62015dmtxzzxuqh720","a":0.875}],"т":[{"q":"wyzzzzzzzzzzzzyxoooooruyyuroooonabbbbfoxxofbbba9000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kvvk700000000007kwwk700000","a":0.737}],"е":[{"q":"wyzzzzzzzzzzzth6yyxtqoooooooolc4zzuldbbbbbbbb952zzsf300000000000zzsf300000000000zzui967777764200zzwqkjkkkkkib400zzyuqoooooome500zzxrjffffffe9300zzuj833333332100zzsf300000000000zzsf300000000000zzsf300000000000zzukb77777777777zzxsmkkkkkkkkkkkzzzxwuuuuuuuuuuu","a":0.632}],"н":[{"q":"wyqc10000003eszzyypb10000003fszzzzob00000004fszzzzob00000004fszzzzob00000004fszzzzqd44444447htzzzzumgffffffhovzzzzxvssssssstvxzzzzvsoooooooqtxzzzzsibbbbbbbdluzzzzob00000004fszzzzob00000004fszzzzob00000004fszzzzob00000004fszzzzob00000004fszzzzpa00000003fszz","a":0.737}],"и":[{"q":"wypa00000001aoyzyypb00000004eryzzzpb0000014bnvzzzzpb000014cnuyzzzzpb00004cosvwzzzzpb0014bntpnszzzzpb005corpegpzzzzpb03bptoc5cpzzzzpb4bnspc40bpzzzzqgdoqoc500bpzzzztopsoc4100bpzzzzxwsnc40000bpzzzzyumb410000bpzzzzwob3000000bpzzzztg40000000bpzzzzrc20000000apzz","a":0.711}],"й":[{"q":"009lod5103amnc10007jpmfbbcjoj810669djlkkjkljc867ije97behigc9aejkvvm901355436gqvwzzpb0000026fqxzzzzpb000038ipuxzzzzpb0014alrqquzzzzpb015cnqofhqzzzzpb27foqlb5cpzzzzqgbippi830bpzzzzupnqof6200bpzzzzxvrmc51000bpzzzzytka410000bpzzzzul82000000bpzzzzsd30000000apzz","a":0.563}],"в":[{"q":"uutsstuutssqi930xwuqmlmmmostqg61zzuldbbbbenuxqd4zzsf300013erzui7zzsf300001cqzth7zzuja7778bktwob3zzwqlkkklostpe51zzxtqooprvxung73zzvohffghknopohazzth733457ahqwsmzzsf30000008lwxvzzsf30000008lwyyzzsf3000025eqxxvzzuldbbbbdhpvxsmyzxtqooopqsuuqhaxyzzzzzzzzxuqi94","a":0.731},{"q":"uutsstvvtssqi930xwuqmmmmmostqg61zzuldbbbbenuxqd4zzsf400013erzui7zzsf400001cqzth7zzuja7778bktwob3zzwqlkkklostpe51zzxtqooprvxung73zzungffghknopohazzre544457ahqwsmzzpb00000008lwxvzzpb00000008lwyxzzqc1000025eqxwuzztjcbbbbdhpvxrlyzwtpooopqsuuqhaxyzzzzzzzzxuqi94","a":0.731}],"п":[{"q":"uwvtstvwussstvwuxxvqmlnnmlllpuxxzzuldbbbbbbcjuzzzzsf30000003erzzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzzzsf30000003fszzyzsf30000003fszzxyse30000003eszz","a":0.716}]},"digits":{"3":[{"q":"27chnsrruzwma3003bjnnlgfloonjb524enoha557bfnsmb339ec5200007kvsf51343112344aluqe40000039effjpqj93000005empqttmb31000004bilnstmb31000002468bgmnjc800000000025clqpm000000000015hsxw000000000027iuzz77764200004douvtceijgcbbbbemqojg8dlqrqooooonjb7427frxzzzzzwma300","a":0.588}],"2":[{"q":"27cfirxzzzzwnd72cgmnnnoppppppmgcnqsqlebbbbbfputrkkje83100007kvzz776420000007kvzz000000000007kvzz000000000029lvxw0000000025biquqm00000025bhnqsog9000024agnsuqld7200004blsusnf94211357clstpia5200039gknsslc7210000djsvwxpd68bbbbbartxzzzsielppppppzzzzzzuppuzzzzzz","a":0.529},{"q":"27chnwzzzzwma3006cknnoooooonja52ekpohcaaaafnsma3eggc5200007kvth877531000007kvumf00000000007kvunh00000000029lusia000000025aipqj930000024ahnqqj931000138emsuqja30000029iqtsnf831001359iqupia52000039glqsoe72100000djswxunfcaaaa852rtxzzxtqoooooka3zzzzzzzzzzzzzsf5","a":0.588},{"q":"05bimrvvutplg83039kpppnlkkmooh838irrlgc979dmssjc8gje8521013covtp567310000007kvyx000000000029mwxw00000000026hrvrk0000000027hqvsh8000000039jswul820000014aluwumb30000015dntupia41000027gpsqjc62000026cjqsne720000038hputma41000000dltxysia77777777qsxzxrjeddddddde","a":0.607}],"5":[{"q":"27dnwzupkkkkkh823bltutmebbbbb8525fszul94000000005fszsf40000000005fszth74444320005fszvohffffd94214epvuspoooonje9539gkkkkkkkkloplh13577777777cnvvt000000000007kvzz000000000007kvzz000000000007kvzz77642000013bnwzzcehgcbbbbbelsvtr8djnooooopsssngc27dnwzzzzzzwnd72","a":0.529}],"1":[{"q":"0000038dhnwzzzzz00269djnqtxzzzzzabdjnruyzzzzzzzzfegknoooqtxzzzzzabbbbbbbdluzzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000003fszzzzz","a":0.313},{"q":"000000003fszzzzz0012357adluzzzzz346aehloqtxzzzzzccejnqsvwxyzzzzzddehjkkklqwzzzzz77777777ajuzzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000004fszzzzz000000003fszzzzz","a":0.294}]}}</script>
 <script>
 /* Эрудит move generator: trie + Appel–Jacobson anchors/cross-checks. Runs in browser or Node. */
 (function (root) {
@@ -49840,6 +49850,348 @@ header h1 span { color: var(--muted); font-weight: 450; }
 
 </script>
 <script>
+/* Эрудит screenshot reader: finds the board and rack in a game screenshot and reads the tiles.
+   Works on raw RGBA pixels; letters are matched against templates (real game crops, learned
+   corrections, and system-font renderings). No network needed. */
+(function (root) {
+  'use strict';
+  var ALPH = 'абвгдежзийклмнопрстуфхцчшщъыьэюя', FS = 16;
+  var DIGITS = ['1', '2', '3', '5', '10'];
+
+  // ---------- pixels ----------
+  function hsv(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, h = 0;
+    if (d) {
+      if (mx === r) h = ((g - b) / d) % 6; else if (mx === g) h = (b - r) / d + 2; else h = (r - g) / d + 4;
+      h *= 60; if (h < 0) h += 360;
+    }
+    return [h, mx ? d / mx : 0, mx];
+  }
+  function isTW(c) { return (c[0] <= 26 || c[0] >= 345) && c[1] >= 0.55 && c[2] >= 0.3 && c[2] <= 0.72; }
+  function isTile(c) { return c[0] >= 20 && c[0] <= 52 && c[1] >= 0.18 && c[2] >= 0.6; }
+  function isKnownSquare(c) {
+    if (c[1] < 0.22 && c[2] < 0.5) return true;                       // empty stone
+    if (isTW(c) || isTile(c)) return true;
+    if (c[0] >= 200 && c[0] <= 235 && c[1] >= 0.3) return true;       // 2x word (blue)
+    if (c[0] >= 50 && c[0] <= 70 && c[1] >= 0.4) return true;         // 3x letter (yellow)
+    if (c[0] >= 90 && c[0] <= 125 && c[1] >= 0.4) return true;        // 2x letter (green)
+    return false;
+  }
+
+  function downscale(img, sw) {
+    var sc = img.w / sw, sh = Math.max(1, Math.round(img.h / sc)), out = new Array(sw * sh);
+    var step = Math.max(1, Math.floor(sc / 3)), d = img.d;
+    for (var y = 0; y < sh; y++) for (var x = 0; x < sw; x++) {
+      var x0 = Math.floor(x * sc), x1 = Math.min(img.w, Math.max(x0 + 1, Math.floor((x + 1) * sc)));
+      var y0 = Math.floor(y * sc), y1 = Math.min(img.h, Math.max(y0 + 1, Math.floor((y + 1) * sc)));
+      var r = 0, g = 0, b = 0, n = 0;
+      for (var yy = y0; yy < y1; yy += step) for (var xx = x0; xx < x1; xx += step) {
+        var i = (yy * img.w + xx) * 4; r += d[i]; g += d[i + 1]; b += d[i + 2]; n++;
+      }
+      out[y * sw + x] = hsv(r / n, g / n, b / n);
+    }
+    return { w: sw, h: sh, sc: sc, px: out };
+  }
+
+  // connected components of a boolean mask; conn = 4 or 8
+  function components(mask, w, h, conn) {
+    var lab = new Int32Array(w * h).fill(-1), comps = [], stack = new Int32Array(w * h);
+    for (var s = 0; s < w * h; s++) {
+      if (!mask[s] || lab[s] >= 0) continue;
+      var id = comps.length, sp = 0, c = { x0: w, y0: h, x1: -1, y1: -1, n: 0 };
+      stack[sp++] = s; lab[s] = id;
+      while (sp) {
+        var p = stack[--sp], px = p % w, py = (p - px) / w;
+        c.n++;
+        if (px < c.x0) c.x0 = px; if (px > c.x1) c.x1 = px; if (py < c.y0) c.y0 = py; if (py > c.y1) c.y1 = py;
+        for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+          if (!dx && !dy) continue;
+          if (conn === 4 && dx && dy) continue;
+          var nx = px + dx, ny = py + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          var q = ny * w + nx;
+          if (mask[q] && lab[q] < 0) { lab[q] = id; stack[sp++] = q; }
+        }
+      }
+      comps.push(c);
+    }
+    return { lab: lab, comps: comps };
+  }
+  function median(a) { var b = a.slice().sort(function (x, y) { return x - y; }); return b[Math.floor(b.length / 2)]; }
+
+  // ---------- board geometry ----------
+  function findBoard(img, S) {
+    var mask = new Uint8Array(S.w * S.h);
+    for (var i = 0; i < mask.length; i++) mask[i] = isTW(S.px[i]) ? 1 : 0;
+    var cc = components(mask, S.w, S.h, 4).comps.filter(function (c) {
+      var w = c.x1 - c.x0 + 1, h = c.y1 - c.y0 + 1;
+      return w >= 4 && h >= 4 && w / h > 0.7 && w / h < 1.43 && c.n >= 0.5 * w * h;
+    });
+    if (cc.length < 3) return null;
+    var med = median(cc.map(function (c) { return Math.max(c.x1 - c.x0, c.y1 - c.y0) + 1; }));
+    cc = cc.filter(function (c) { var s = Math.max(c.x1 - c.x0, c.y1 - c.y0) + 1; return s >= 0.8 * med && s <= 1.25 * med; });
+    if (cc.length < 3) return null;
+    // keep squares that line up with at least two others (the 3x-word squares sit in rows/columns 0, 7, 14)
+    var half = 0.5 * med * S.sc;
+    var pts = cc.map(function (c) { return { x: (c.x0 + c.x1 + 1) / 2 * S.sc, y: (c.y0 + c.y1 + 1) / 2 * S.sc }; });
+    pts = pts.filter(function (p) {
+      var sx = 0, sy = 0;
+      pts.forEach(function (q) {
+        if (q === p) return;
+        if (Math.abs(q.x - p.x) < half && Math.abs(q.y - p.y) > 3 * half) sx++;
+        if (Math.abs(q.y - p.y) < half && Math.abs(q.x - p.x) > 3 * half) sy++;
+      });
+      return sx >= 1 && sy >= 1;
+    });
+    if (pts.length < 3) return null;
+    var xs = pts.map(function (p) { return p.x; }), ys = pts.map(function (p) { return p.y; });
+    var est = med * S.sc;
+    function axis(v, size) {
+      var mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), n = Math.round((mx - mn) / est);
+      if (n >= 12 && n <= 16) return { start: mn - (mx - mn) / 28, pitch: (mx - mn) / 14 };
+      if (n >= 6 && n <= 8) {
+        var p = (mx - mn) / 7;
+        return { start: (mn < size / 2 ? mn : mn - 7 * p) - p / 2, pitch: p };
+      }
+      return null;
+    }
+    var ax = axis(xs, img.w), ay = axis(ys, img.h);
+    if (!ax || !ay) return null;
+    return { left: ax.start, top: ay.start, px: ax.pitch, py: ay.pitch };
+  }
+
+  function cellColor(img, cx, cy, rad) {
+    var r = [], g = [], b = [], step = Math.max(1, Math.floor(rad / 6));
+    for (var y = Math.round(cy - rad); y <= cy + rad; y += step) for (var x = Math.round(cx - rad); x <= cx + rad; x += step) {
+      if (x < 0 || y < 0 || x >= img.w || y >= img.h) continue;
+      var i = (y * img.w + x) * 4; r.push(img.d[i]); g.push(img.d[i + 1]); b.push(img.d[i + 2]);
+    }
+    if (!r.length) return [0, 0, 0];
+    return hsv(median(r), median(g), median(b));
+  }
+
+  // ---------- glyphs ----------
+  function lum(img, x, y) { var i = (y * img.w + x) * 4; return 0.299 * img.d[i] + 0.587 * img.d[i + 1] + 0.114 * img.d[i + 2]; }
+
+  function featureFrom(lab, bw, flags, x0, y0, x1, y1) {
+    var gw = x1 - x0 + 1, gh = y1 - y0 + 1, g = new Float32Array(FS * FS);
+    for (var fy = 0; fy < FS; fy++) for (var fx = 0; fx < FS; fx++) {
+      var on = 0;
+      for (var sy = 0; sy < 3; sy++) for (var sx = 0; sx < 3; sx++) {
+        var x = x0 + Math.min(gw - 1, Math.floor((fx + (sx + 0.5) / 3) * gw / FS));
+        var y = y0 + Math.min(gh - 1, Math.floor((fy + (sy + 0.5) / 3) * gh / FS));
+        var l = lab[y * bw + x];
+        if (l >= 0 && flags[l]) on++;
+      }
+      g[fy * FS + fx] = on / 9;
+    }
+    return finish(g, gw / gh);
+  }
+  function finish(g, aspect) {
+    var b = new Float32Array(FS * FS), n = 0;
+    for (var y = 0; y < FS; y++) for (var x = 0; x < FS; x++) {
+      var s = 0, c = 0;
+      for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+        var xx = x + dx, yy = y + dy;
+        if (xx < 0 || yy < 0 || xx >= FS || yy >= FS) continue;
+        s += g[yy * FS + xx] * (dx || dy ? 1 : 2); c += dx || dy ? 1 : 2;
+      }
+      b[y * FS + x] = s / c; n += b[y * FS + x] * b[y * FS + x];
+    }
+    n = Math.sqrt(n) || 1;
+    for (var i = 0; i < b.length; i++) b[i] /= n;
+    return { v: b, a: aspect };
+  }
+
+  // Split a tile image into letter and point-value glyph features.
+  function tileGlyphs(img, x, y, w, h) {
+    var ix0 = Math.max(0, Math.round(x + 0.06 * w)), ix1 = Math.min(img.w, Math.round(x + 0.94 * w));
+    var iy0 = Math.max(0, Math.round(y + 0.04 * h)), iy1 = Math.min(img.h, Math.round(y + 0.93 * h));
+    var bw = ix1 - ix0, bh = iy1 - iy0;
+    if (bw < 8 || bh < 8) return null;
+    var L = new Float32Array(bw * bh), samples = [];
+    for (var yy = 0; yy < bh; yy++) for (var xx = 0; xx < bw; xx++) {
+      var v = lum(img, ix0 + xx, iy0 + yy); L[yy * bw + xx] = v;
+      if (!((yy * 7 + xx) % 5)) samples.push(v);
+    }
+    var thr = 0.5 * median(samples), mask = new Uint8Array(bw * bh);
+    for (var i = 0; i < mask.length; i++) mask[i] = L[i] < thr ? 1 : 0;
+    var C = components(mask, bw, bh, 8), minN = Math.max(3, bw * bh * 0.0015);
+    var letterF = new Uint8Array(C.comps.length), digitF = new Uint8Array(C.comps.length);
+    var lb = [bw, bh, -1, -1], db = [bw, bh, -1, -1], hasL = false, hasD = false;
+    C.comps.forEach(function (c, id) {
+      if (c.n < minN) return;
+      var cw = c.x1 - c.x0 + 1, ch = c.y1 - c.y0 + 1, cx = (c.x0 + c.x1) / 2, cy = (c.y0 + c.y1) / 2;
+      var edge = c.x0 === 0 || c.y0 === 0 || c.x1 === bw - 1 || c.y1 === bh - 1;
+      if (edge && ((cw <= 0.12 * bw && ch >= 0.45 * bh) || (ch <= 0.12 * bh && cw >= 0.45 * bw) || cw > 0.9 * bw || ch > 0.9 * bh)) return; // grid lines / shading
+      var box;
+      if (cx > 0.66 * bw && cy > 0.6 * bh && ch < 0.4 * bh) { digitF[id] = 1; box = db; hasD = true; }
+      else { letterF[id] = 1; box = lb; hasL = true; }
+      box[0] = Math.min(box[0], c.x0); box[1] = Math.min(box[1], c.y0); box[2] = Math.max(box[2], c.x1); box[3] = Math.max(box[3], c.y1);
+    });
+    if (!hasL) return null;
+    return {
+      letter: featureFrom(C.lab, bw, letterF, lb[0], lb[1], lb[2], lb[3]),
+      digit: hasD ? featureFrom(C.lab, bw, digitF, db[0], db[1], db[2], db[3]) : null
+    };
+  }
+
+  // ---------- templates ----------
+  function similarity(a, b) {
+    var s = 0, v = a.v, w = b.v;
+    for (var i = 0; i < v.length; i++) s += v[i] * w[i];
+    return s - 0.35 * Math.abs(Math.log(a.a / b.a));
+  }
+  function encode(f) {
+    var mx = 0, s = '';
+    for (var i = 0; i < f.v.length; i++) mx = Math.max(mx, f.v[i]);
+    for (i = 0; i < f.v.length; i++) s += Math.round(f.v[i] / (mx || 1) * 35).toString(36);
+    return { q: s, a: Math.round(f.a * 1000) / 1000 };
+  }
+  function decode(e) {
+    var v = new Float32Array(FS * FS), n = 0;
+    for (var i = 0; i < v.length; i++) { v[i] = parseInt(e.q[i], 36) / 35; n += v[i] * v[i]; }
+    n = Math.sqrt(n) || 1;
+    for (i = 0; i < v.length; i++) v[i] /= n;
+    return { v: v, a: e.a };
+  }
+
+  var fontTemplates = null;
+  function renderTemplates() {
+    if (fontTemplates) return fontTemplates;
+    fontTemplates = { letters: {}, digits: {} };
+    if (typeof document === 'undefined') return fontTemplates;
+    var cv = document.createElement('canvas'), W = 150;
+    cv.width = W; cv.height = W;
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    var fonts = ['500 100px "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif',
+                 'bold 100px "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif',
+                 '100px Arial, "Liberation Sans", sans-serif'];
+    function glyph(text) {
+      var out = [];
+      fonts.forEach(function (f) {
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, W);
+        ctx.fillStyle = '#000'; ctx.font = f; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(text, W / 2, W / 2);
+        var d = ctx.getImageData(0, 0, W, W).data, lab = new Int32Array(W * W).fill(-1), x0 = W, y0 = W, x1 = -1, y1 = -1;
+        for (var y = 0; y < W; y++) for (var x = 0; x < W; x++) {
+          if (d[(y * W + x) * 4] < 128) { lab[y * W + x] = 0; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+        }
+        if (x1 >= 0) out.push(featureFrom(lab, W, new Uint8Array([1]), x0, y0, x1, y1));
+      });
+      return out;
+    }
+    ALPH.split('').forEach(function (ch) { fontTemplates.letters[ch] = glyph(ch.toUpperCase()); });
+    DIGITS.forEach(function (dg) { fontTemplates.digits[dg] = glyph(dg); });
+    return fontTemplates;
+  }
+
+  // bank: { letters: {ch: [enc...]}, digits: {d: [enc...]} } (seeds + learned); decoded lazily
+  function prepareBank(banks) {
+    var out = { letters: {}, digits: {} };
+    banks.forEach(function (bank) {
+      if (!bank) return;
+      ['letters', 'digits'].forEach(function (kind) {
+        var src = bank[kind] || {};
+        Object.keys(src).forEach(function (k) {
+          (out[kind][k] = out[kind][k] || []).push.apply(out[kind][k], src[k].map(decode));
+        });
+      });
+    });
+    return out;
+  }
+
+  function bestOf(feat, real, font, keys, fontPenalty) {
+    var scores = {};
+    keys.forEach(function (k) {
+      var s = -9;
+      (real[k] || []).forEach(function (t) { s = Math.max(s, similarity(feat, t)); });
+      (font[k] || []).forEach(function (t) { s = Math.max(s, similarity(feat, t) - fontPenalty); });
+      scores[k] = s;
+    });
+    return scores;
+  }
+
+  function classify(g, bank, values, opts) {
+    opts = opts || {};
+    var font = opts.noFont ? { letters: {}, digits: {} } : renderTemplates();
+    var dv = null, dConf = 0;
+    if (g.digit) {
+      var ds = bestOf(g.digit, bank.digits, font.digits, DIGITS, 0.03);
+      var order = DIGITS.slice().sort(function (a, b) { return ds[b] - ds[a]; });
+      dv = +order[0]; dConf = ds[order[0]] - ds[order[1]];
+    }
+    var ls = bestOf(g.letter, bank.letters, font.letters, ALPH.split(''), 0.03);
+    var ranked = ALPH.split('').map(function (ch, i) {
+      var bonus = dv !== null && dConf > 0.02 && values[i] === dv ? 0.06 : 0;
+      return { ch: ch, s: ls[ch] + bonus };
+    }).sort(function (a, b) { return b.s - a.s; });
+    var margin = ranked[0].s - ranked[1].s;
+    return { ch: ranked[0].ch, score: ranked[0].s, margin: margin, second: ranked[1].ch, digit: dv, unsure: margin < 0.035 || ranked[0].s < 0.72 };
+  }
+
+  // ---------- main ----------
+  // img: {w, h, d: RGBA}; bank: prepared templates; values: array of 32 letter values
+  function scan(img, bank, values, opts) {
+    var S = downscale(img, 150);
+    var B = findBoard(img, S);
+    if (!B) return { error: 'board' };
+    var cells = [], known = 0, rad = Math.min(B.px, B.py) * 0.28;
+    for (var r = 0; r < 15; r++) for (var c = 0; c < 15; c++) {
+      var col = cellColor(img, B.left + (c + 0.5) * B.px, B.top + (r + 0.5) * B.py, rad);
+      if (isKnownSquare(col)) known++;
+      if (isTile(col)) cells.push({ i: r * 15 + c, r: r, c: c, tentative: col[1] >= 0.48 }); // placed this turn, not yet played
+    }
+    if (known < 180) return { error: 'board' };
+    var board = [];
+    cells.forEach(function (t) {
+      var g = tileGlyphs(img, B.left + t.c * B.px, B.top + t.r * B.py, B.px, B.py);
+      if (!g) return;
+      var k = classify(g, bank, values, opts);
+      board.push({ i: t.i, tentative: t.tentative, ch: k.ch, unsure: k.unsure, info: k, g: g });
+    });
+    // rack: tile-coloured blobs below the board
+    var rack = [], y0 = Math.round((B.top + 15.1 * B.py) / S.sc), y1 = Math.min(S.h, Math.round((B.top + 18.4 * B.py) / S.sc));
+    if (y1 > y0 + 2) {
+      var bh = y1 - y0, m = new Uint8Array(S.w * bh);
+      for (var yy = 0; yy < bh; yy++) for (var xx = 0; xx < S.w; xx++) m[yy * S.w + xx] = isTile(S.px[(y0 + yy) * S.w + xx]) ? 1 : 0;
+      var pys = B.py / S.sc;
+      components(m, S.w, bh, 4).comps.forEach(function (c) {
+        var w = c.x1 - c.x0 + 1, h = c.y1 - c.y0 + 1;
+        if (h < 1.1 * pys || h > 2.6 * pys || c.n < 0.5 * w * h) return;
+        var n = Math.max(1, Math.round(w / h));
+        for (var k = 0; k < n; k++) {
+          var tx = (c.x0 + k * w / n) * S.sc, tw = w / n * S.sc, ty = (y0 + c.y0) * S.sc, th = h * S.sc;
+          rack.push({ x: tx, y: ty, w: tw, h: th });
+        }
+      });
+    }
+    rack.sort(function (a, b) { return a.x - b.x; });
+    var rackOut = [];
+    rack.forEach(function (t) {
+      var g = tileGlyphs(img, t.x, t.y, t.w, t.h);
+      if (!g) return;
+      var k = classify(g, bank, values, opts);
+      rackOut.push({ ch: k.ch, unsure: k.unsure, info: k, g: g });
+    });
+    return { geom: B, board: board, rack: rackOut, rackBoxes: rack };
+  }
+
+  // Add a confirmed crop to a template store (keeps the newest `keep` per key)
+  function learn(store, kind, key, feat, keep) {
+    store[kind] = store[kind] || {};
+    var list = store[kind][key] = store[kind][key] || [];
+    list.push(encode(feat));
+    while (list.length > (keep || 5)) list.shift();
+  }
+
+  var api = { _components: components, _findBoard: findBoard, _downscale: downscale, _cellColor: cellColor, _isKnown: isKnownSquare, scan: scan, prepareBank: prepareBank, learn: learn, encode: encode, decode: decode, classify: classify, renderTemplates: renderTemplates };
+  if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.EruditScan = api;
+})(this);
+
+</script>
+<script>
 (function () {
   'use strict';
   var E = window.Erudit, N = 15, ALPH = E.ALPH;
@@ -49847,9 +50199,11 @@ header h1 span { color: var(--muted); font-weight: 450; }
   var DEFAULT_EXCLUDED = 'он она оно то та тот моя моё наш ваш два сто сам сие иже нет но за ау ах ох га ма му';
   var $ = function (id) { return document.getElementById(id); };
 
-  var st = { board: new Int8Array(N * N).fill(-1), blank: new Uint8Array(N * N), rack: '', sel: -1, dir: 0, focus: 'rack', moves: [], pick: -1, tab: 'keys', stale: false };
+  var st = { board: new Int8Array(N * N).fill(-1), blank: new Uint8Array(N * N), rack: '', sel: -1, dir: 0, focus: 'rack', moves: [], pick: -1, tab: 'keys', stale: false,
+    unsure: {}, rackUnsure: [], scan: null };
   var settings = { values: Object.assign({}, E.DEFAULT_VALUES), bingo: 15, extra: '', excluded: DEFAULT_EXCLUDED };
   var T = null, RAW = null, cells = [];
+  var LS_TPL = 'erudit-templates-v1', learned = { letters: {}, digits: {} }, bank = null;
 
   // ---------- storage (optional: the page works without it) ----------
   function store(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } }
@@ -49881,6 +50235,15 @@ header h1 span { color: var(--muted); font-weight: 450; }
     if (typeof s.bingo === 'number') settings.bingo = s.bingo;
     if (typeof s.extra === 'string') settings.extra = s.extra;
     if (typeof s.excluded === 'string') settings.excluded = s.excluded;
+  }
+  function rebuildBank() {
+    if (!window.EruditScan) return;
+    var seeds = null;
+    try { seeds = JSON.parse($('seeds').textContent); } catch (e) { /* none */ }
+    bank = EruditScan.prepareBank([seeds, learned]);
+  }
+  function learnedCount() {
+    var n = 0; Object.keys(learned.letters || {}).forEach(function (k) { n += learned.letters[k].length; }); return n;
   }
   function vals() { return ALPH.split('').map(function (ch) { return settings.values[ch] || 0; }); }
   function val(k) { return settings.values[ALPH[k]] || 0; }
@@ -49920,6 +50283,7 @@ header h1 span { color: var(--muted); font-weight: 450; }
       else if (E.LM[i] === 3) { cls += ' tl'; html = '<span class="pl">3Б</span>'; }
       else if (E.LM[i] === 2) { cls += ' dl'; html = '<span class="pl">2Б</span>'; }
       else if (i === 7 * N + 7) cls += ' star';
+      if (k >= 0 && st.unsure[i]) cls += ' unsure';
       if (i === st.sel && st.focus === 'board') cls += ' sel ' + (st.dir ? 'v' : 'h');
       var c = cells[i];
       if (c.className !== cls) c.className = cls;
@@ -49932,8 +50296,11 @@ header h1 span { color: var(--muted); font-weight: 450; }
     for (var i = 0; i < 7; i++) {
       var ch = st.rack[i];
       if (!ch) h += '<div class="rt"></div>';
-      else if (ch === '*') h += '<div class="rt on">★<span class="v">0</span></div>';
-      else h += '<div class="rt on">' + ch + '<span class="v">' + val(ALPH.indexOf(ch)) + '</span></div>';
+      else {
+        var cl = 'rt on' + (st.rackUnsure[i] ? ' unsure' : '');
+        if (ch === '*') h += '<div class="' + cl + '">★<span class="v">0</span></div>';
+        else h += '<div class="' + cl + '">' + ch + '<span class="v">' + val(ALPH.indexOf(ch)) + '</span></div>';
+      }
     }
     var r = $('rack');
     r.innerHTML = h;
@@ -49992,22 +50359,23 @@ header h1 span { color: var(--muted); font-weight: 450; }
     if (k < 0) return;
     if (st.focus === 'rack') {
       if (st.rack.length >= 7) { status('На подставке уже 7 фишек.'); return; }
-      st.rack += ch;
+      st.rack += ch; st.rackUnsure.push(false);
     } else {
       if (st.sel < 0) st.sel = 7 * N + 7;
-      st.board[st.sel] = k; st.blank[st.sel] = 0;
+      learnCell(st.sel, ch);
+      st.board[st.sel] = k; st.blank[st.sel] = 0; delete st.unsure[st.sel];
       var nx = step(st.sel, st.dir, false);
       if (nx >= 0) st.sel = nx;
     }
     changed(); render();
   }
   function backspace() {
-    if (st.focus === 'rack') st.rack = st.rack.slice(0, -1);
+    if (st.focus === 'rack') { st.rack = st.rack.slice(0, -1); st.rackUnsure.length = st.rack.length; }
     else if (st.sel >= 0) {
-      if (st.board[st.sel] >= 0) { st.board[st.sel] = -1; st.blank[st.sel] = 0; }
+      if (st.board[st.sel] >= 0) { st.board[st.sel] = -1; st.blank[st.sel] = 0; delete st.unsure[st.sel]; }
       else {
         var pv = step(st.sel, st.dir, true);
-        if (pv >= 0) { st.sel = pv; st.board[pv] = -1; st.blank[pv] = 0; }
+        if (pv >= 0) { st.sel = pv; st.board[pv] = -1; st.blank[pv] = 0; delete st.unsure[pv]; }
       }
     }
     changed(); render();
@@ -50015,11 +50383,11 @@ header h1 span { color: var(--muted); font-weight: 450; }
   function star() {
     if (st.focus === 'rack') {
       if (st.rack.length >= 7) return;
-      st.rack += '*';
+      st.rack += '*'; st.rackUnsure.push(false);
     } else if (st.sel >= 0) {
       var i = st.board[st.sel] >= 0 ? st.sel : step(st.sel, st.dir, true);
       if (i < 0 || st.board[i] < 0) { status('Звёздочка на поле: сначала поставьте букву, потом нажмите ★.'); return; }
-      st.blank[i] = st.blank[i] ? 0 : 1;
+      st.blank[i] = st.blank[i] ? 0 : 1; delete st.unsure[i];
     }
     changed(); render();
   }
@@ -50030,8 +50398,9 @@ header h1 span { color: var(--muted); font-weight: 450; }
   }
 
   // ---------- solving ----------
-  function solve() {
-    if (!T || !st.rack.length) return;
+  function solve(auto, note) {
+    if (auto !== true) confirmScan();
+    if (!T || !st.rack.length) { if (note) status(note); return; }
     status('Ищу ходы…');
     $('solve').disabled = true;
     setTimeout(function () {
@@ -50043,19 +50412,20 @@ header h1 span { color: var(--muted); font-weight: 450; }
       st.tab = 'moves';
       render();
       $('moves').scrollTop = 0;
-      status(st.moves.length
-        ? (st.moves.length >= 300 ? 'Показаны 300 лучших ходов' : 'Найдено ходов: ' + st.moves.length) + ' (' + ms + ' мс). Выбранный ход виден на поле.'
-        : 'Ходов не найдено · ' + ms + ' мс');
+      status((note ? note + ' ' : '') + (st.moves.length
+        ? (st.moves.length >= 300 ? 'Показаны 300 лучших ходов' : 'Найдено ходов: ' + st.moves.length) + (note ? '.' : ' (' + ms + ' мс). Выбранный ход виден на поле.')
+        : 'Ходов не найдено.'));
     }, 30);
   }
   function playMove(m) {
+    confirmScan();
     var rack = st.rack.split('');
     m.tiles.forEach(function (t) {
       st.board[t.i] = t.k; st.blank[t.i] = t.bl;
       var j = rack.indexOf(t.bl ? '*' : ALPH[t.k]);
       if (j >= 0) rack.splice(j, 1);
     });
-    st.rack = rack.join('');
+    st.rack = rack.join(''); st.rackUnsure = [];
     st.moves = []; st.pick = -1; st.solved = false; st.stale = false;
     st.tab = 'keys'; st.focus = 'rack';
     saveState(); render();
@@ -50067,6 +50437,91 @@ header h1 span { color: var(--muted); font-weight: 450; }
     buildDict();
     status('«' + w.toUpperCase() + '» больше не предлагается.');
     solve();
+  }
+
+  // ---------- screenshot ----------
+  function teach(g, ch) {
+    if (!g || !ch || ch === '*' || ALPH.indexOf(ch) < 0) return false;
+    EruditScan.learn(learned, 'letters', ch, g.letter, 5);
+    var v = settings.values[ch];
+    if (g.digit && [1, 2, 3, 5, 10].indexOf(v) >= 0) EruditScan.learn(learned, 'digits', String(v), g.digit, 5);
+    return true;
+  }
+  function saveLearned() { store(LS_TPL, learned); rebuildBank(); }
+  // the user typed a letter over a square read from a screenshot: learn the correction right away
+  function learnCell(i, ch) {
+    if (!st.scan || !st.scan.board[i] || st.scan.board[i].done) return;
+    st.scan.board[i].done = true;
+    if (teach(st.scan.board[i].g, ch)) saveLearned();
+  }
+  // the user moved on with a screenshot's reading (searched again or played a move): learn what it read
+  function confirmScan() {
+    if (!st.scan) return;
+    var any = false;
+    Object.keys(st.scan.board).forEach(function (i) {
+      var e = st.scan.board[i];
+      if (e.done || st.board[i] < 0 || st.blank[i]) return;
+      e.done = true; any = teach(e.g, ALPH[st.board[i]]) || any;
+    });
+    if (st.rack.length === st.scan.rack.length) st.scan.rack.forEach(function (g, j) { any = teach(g, st.rack[j]) || any; });
+    st.scan = null;
+    if (any) saveLearned();
+  }
+  function readImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function () {
+        try {
+          var k = Math.min(1, 1600 / im.naturalWidth), cv = document.createElement('canvas');
+          cv.width = Math.round(im.naturalWidth * k); cv.height = Math.round(im.naturalHeight * k);
+          var ctx = cv.getContext('2d', { willReadFrequently: true });
+          ctx.drawImage(im, 0, 0, cv.width, cv.height);
+          var d = ctx.getImageData(0, 0, cv.width, cv.height);
+          URL.revokeObjectURL(url);
+          resolve({ w: cv.width, h: cv.height, d: d.data });
+        } catch (e) { URL.revokeObjectURL(url); reject(e); }
+      };
+      im.onerror = function () { URL.revokeObjectURL(url); reject(new Error('decode')); };
+      im.src = url;
+    });
+  }
+  function onShot(file) {
+    if (!file || !window.EruditScan) return;
+    if (file.type && !/^image\//.test(file.type)) { status('Это не картинка. Выберите скриншот игры.'); return; }
+    status('Читаю скриншот…');
+    readImage(file).then(function (img) {
+      setTimeout(function () {
+        var res;
+        try { res = EruditScan.scan(img, bank, vals()); } catch (e) { res = { error: 'fail' }; }
+        if (res.error) { status('Не нашёл поле на картинке. Нужен скриншот всего экрана игры, поле без увеличения.'); return; }
+        applyScan(res);
+      }, 20);
+    }, function () { status('Не удалось открыть картинку. Попробуйте другой скриншот.'); });
+  }
+  function applyScan(res) {
+    confirmScan();
+    st.board.fill(-1); st.blank.fill(0); st.unsure = {};
+    var scan = { board: {}, rack: [] }, rack = '', ru = [], placed = 0;
+    res.board.forEach(function (t) {
+      if (t.tentative) return;
+      st.board[t.i] = ALPH.indexOf(t.ch);
+      if (t.unsure) st.unsure[t.i] = 1;
+      scan.board[t.i] = { g: t.g };
+    });
+    // rack tiles left to right, then tiles already put on the board this turn but not played
+    res.rack.concat(res.board.filter(function (t) { return t.tentative; })).forEach(function (t) {
+      if (rack.length >= 7) return;
+      rack += t.ch; ru.push(!!t.unsure); scan.rack.push(t.g);
+      if (t.tentative) placed++;
+    });
+    st.rack = rack; st.rackUnsure = ru; st.scan = scan;
+    st.moves = []; st.pick = -1; st.stale = false; st.solved = false; st.sel = -1; st.focus = 'rack';
+    saveState();
+    var nBoard = res.board.length - placed, nUnsure = Object.keys(st.unsure).length + ru.filter(Boolean).length;
+    var note = 'Со скриншота: ' + nBoard + ' на поле, ' + rack.length + ' в руке' + (placed ? ' (' + placed + ' из них уже выставлены, но не сыграны)' : '') + '.' +
+      (nUnsure ? ' Буквы в красной рамке проверьте (' + nUnsure + ').' : ' Проверьте буквы.');
+    render();
+    solve(true, note);
   }
 
   // ---------- keyboard ----------
@@ -50112,7 +50567,7 @@ header h1 span { color: var(--muted); font-weight: 450; }
       if (k === '<') backspace();
       else if (k === '*') star();
       else if (k === 'dir') { st.dir = st.dir ? 0 : 1; saveState(); renderDirKey(); render(); }
-      else if (k === 'clrRack') { st.rack = ''; st.focus = 'rack'; changed(); render(); }
+      else if (k === 'clrRack') { st.rack = ''; st.rackUnsure = []; st.focus = 'rack'; changed(); render(); }
       else typeLetter(k);
     });
     $('moves').addEventListener('click', function (e) {
@@ -50137,11 +50592,26 @@ header h1 span { color: var(--muted); font-weight: 450; }
       }
       clearTimeout(clearArmed); clearArmed = null; b.textContent = 'Новая игра'; b.classList.remove('warn');
       st.board.fill(-1); st.blank.fill(0); st.rack = ''; st.moves = []; st.pick = -1; st.solved = false; st.stale = false;
+      st.unsure = {}; st.rackUnsure = []; st.scan = null;
       st.sel = 7 * N + 7; st.focus = 'board'; st.tab = 'keys';
       saveState(); render(); status('Поле очищено. Введите стартовое слово и свои фишки.');
     });
 
     $('gear').addEventListener('click', openSheet);
+    $('shotBtn').addEventListener('click', function () { $('shotInput').click(); });
+    $('shotInput').addEventListener('change', function () {
+      var f = this.files && this.files[0];
+      this.value = '';
+      onShot(f);
+    });
+    document.addEventListener('paste', function (e) {
+      var items = (e.clipboardData && e.clipboardData.files) || [];
+      for (var j = 0; j < items.length; j++) if (/^image\//.test(items[j].type)) { e.preventDefault(); onShot(items[j]); return; }
+    });
+    $('forget').addEventListener('click', function () {
+      learned = { letters: {}, digits: {} }; saveLearned();
+      $('forget').textContent = 'Забыто'; renderLearnInfo();
+    });
     $('done').addEventListener('click', closeSheet);
 
     document.addEventListener('keydown', function (e) {
@@ -50174,7 +50644,13 @@ header h1 span { color: var(--muted); font-weight: 450; }
     $('bingo').value = settings.bingo;
     $('extra').value = settings.extra;
     $('excluded').value = settings.excluded;
+    $('forget').textContent = 'Забыть выученные буквы';
+    renderLearnInfo();
     $('sheet').classList.add('open');
+  }
+  function renderLearnInfo() {
+    var n = learnedCount();
+    $('learnInfo').textContent = n ? 'С ваших скриншотов выучено образцов букв: ' + n + '.' : 'Выученных образцов пока нет: подсказчик узнаёт буквы по встроенным образцам.';
   }
   function closeSheet() {
     var oldWords = settings.extra + '|' + settings.excluded;
@@ -50193,19 +50669,25 @@ header h1 span { color: var(--muted); font-weight: 450; }
   // ---------- offline (service worker; only where the page is served from its own site) ----------
   try {
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost') && document.querySelector('link[rel="manifest"]')) {
+      var hadController = !!navigator.serviceWorker.controller, reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', function () {
+        if (hadController && !reloaded) { reloaded = true; location.reload(); }
+      });
       navigator.serviceWorker.register('sw.js').catch(function () { /* offline cache unavailable */ });
     }
   } catch (e) { /* ignore */ }
 
   // ---------- start ----------
   loadSettings(); loadState();
+  var lt = load(LS_TPL); if (lt && lt.letters) learned = lt;
+  rebuildBank();
   buildBoard(); buildKeys(); renderDirKey(); wire();
   render();
   status('Загружаю словарь…');
   setTimeout(function () {
     buildDict();
     status('Словарь готов: ' + T.count.toLocaleString('ru-RU') + ' слов.');
-    if (st.rack.length) solve(); else render();
+    if (st.rack.length) solve(true); else render();
   }, 20);
 })();
 

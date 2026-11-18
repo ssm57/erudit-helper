@@ -1,5 +1,5 @@
 // Offline cache for Эрудит-подсказчик: serve from cache at once, refresh it in the background when online.
-const CACHE = 'erudit-v1';
+const CACHE = 'erudit-v2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
